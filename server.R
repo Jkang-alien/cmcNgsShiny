@@ -21,10 +21,11 @@ function(input, output) {
     dataset
   })
   
-  output$table1 <- DT::renderDataTable(DT::datatable({
+  output$table1 <- DT::renderDataTable(
+    DT::datatable({
     variantInput()
-    }),
-    pageLength = 5)
+    })
+    )
   
   output$downloadVariant <- downloadHandler(
     filename = "varinat_data.csv",
@@ -33,14 +34,24 @@ function(input, output) {
     }
   )
   
-  output$table2 <- DT::renderDataTable({
-    DT::datatable(iris)
+  caseInput <- reactive({
+    caseData <- iris
+    if (input$sym2 != "All") {
+      caseData <- caseData[caseData$Species == input$sym2,]
+    }
+    caseData
   })
+  
+  output$table2 <- DT::renderDataTable(
+    DT::datatable({
+      caseInput()
+      })
+  )
   
   output$downloadCase <- downloadHandler(
     filename = "case_data.csv",
     content = function(file) {
-      write.csv(variantInput(), file)
+      write.csv(caseInput(), file)
     }
   )
 }

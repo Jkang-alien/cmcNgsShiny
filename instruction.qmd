@@ -1,0 +1,12 @@
+---
+title: "Instructions"
+format: html
+---
+
+```{r}
+#| eval: false
+sudo cp -r ~/Projects/cmcNgsShiny/ /etc/shiny-server/
+sudo systemctl restart shiny-server.service
+sudo systemctl restart nginx.service
+sudo vi /etc/nginx/nginx.conf
+```

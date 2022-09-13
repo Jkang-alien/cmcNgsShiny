@@ -18,9 +18,8 @@ fluidPage(
     ),
   
   tabPanel("Case",
-           column(4, textInput(
-             "sym2", "Cancer Type", "All"
-           )),
+           column(4, selectInput(
+             "sym2", "Cancer Type", c("All", unique(as.character(iris$Species))))),
            fluidRow(
              DT::dataTableOutput("table2")
            ),
