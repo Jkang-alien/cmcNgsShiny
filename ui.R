@@ -6,13 +6,25 @@ fluidPage(
   titlePanel("CMC Seoul NGS Ion Torrent"),
   
   # Create a new Row in the UI for selectInputs
-  fluidRow(
-    column(4,
-           textInput("sym", "Hugo_Symbol", "TP53")
-           ),
+  tabsetPanel(
+    tabPanel("Variant",
+             column(4, textInput(
+               "sym1", "Hugo_Symbol", "All"
+             )),
+    fluidRow(# Create a new row for the table.
+    DT::dataTableOutput("table1")
+      ),
+    downloadButton("downloadVariant", "Download")
     ),
-  # Create a new row for the table.
-  DT::dataTableOutput("table"),
   
-  downloadButton("downloadData", "Download")
+  tabPanel("Case",
+           column(4, textInput(
+             "sym2", "Cancer Type", "All"
+           )),
+           fluidRow(
+             DT::dataTableOutput("table2")
+           ),
+           downloadButton("downloadCase", "Download")
+    )
+  )
 )

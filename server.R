@@ -4,26 +4,43 @@ library(pins)
 function(input, output) {
   board <- board_folder("~/board")
   
-  data <- board |> pin_read("data")
+  variantData <- board |> pin_read("data")|>
+    select(Tumor_Sample_Barcode,
+           Hugo_Symbol,
+           starts_with("HGVS"),
+           Variant_Type)|>
+    rename(`NGS ID` = Tumor_Sample_Barcode)
   
-  datasetInput1 <- reactive(
-    data|>
-      select(Tumor_Sample_Barcode,
-             Hugo_Symbol,
-             starts_with("HGVS"),
-             Variant_Type)|>
-      filter(Hugo_Symbol == input$sym)
-  )
   # Filter data based on selections
-  output$table <- DT::renderDataTable(DT::datatable({
-    dataset <- datasetInput1()
-    }))
+  variantInput <- reactive({
+    dataset <- variantData
+      if (input$sym1 != "All") {
+        dataset <- variantData|>
+          filter(Hugo_Symbol == input$sym1)
+      }
+    dataset
+  })
   
-  output$downloadData <- downloadHandler(
-    filename = "data.csv",
+  output$table1 <- DT::renderDataTable(DT::datatable({
+    variantInput()
+    }),
+    pageLength = 5)
+  
+  output$downloadVariant <- downloadHandler(
+    filename = "varinat_data.csv",
     content = function(file) {
-      write.csv(datasetInput1(), file)
+      write.csv(variantInput(), file)
     }
   )
   
+  output$table2 <- DT::renderDataTable({
+    DT::datatable(iris)
+  })
+  
+  output$downloadCase <- downloadHandler(
+    filename = "case_data.csv",
+    content = function(file) {
+      write.csv(variantInput(), file)
+    }
+  )
 }
