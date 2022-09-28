@@ -1,0 +1,26 @@
+---
+title: "Instruction"
+author: "Jun Kang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## vcf2maf
+* vcf2maf
+  + Use modified vcf2mafGRCh37.pl for OCAPlus 
+  
+```{bash}
+#| eval: false
+perl vcf2mafGRCh37.pl --input-vcf ~/ngsData/OCAplus/vcf/M22-3282_v1_M22-3282_RNA_v1_Filtered_2022-04-05_21_56_30.vcf --output-maf ~/ngsData/OCAplus/maf/M22-3282.maf --ref-fasta /home/humintec/.vep/homo_sapiens/hg19/hg19.fa --vep-overwrite
+
+perl vcf2maf.pl --input-vcf ~/ngsData/tnbc/vcf/S20220217_35PN_S20220217_34PT.final.vcf --output-maf ~/ngsData/tnbc/maf/S20220217_35PN_S20220217_34PT.final.maf --ref-fasta /home/humintec/.vep/homo_sapiens/hg38/hg38.fa.gz --buffer-size 10 --vep-forks 0 --vep-overwrite
+```
+
+```{bash}
+#| eval: false
+sudo cp -r ~/Projects/cmcNgsShiny/ /etc/shiny-server/
+sudo systemctl restart shiny-server.service
+sudo systemctl restart nginx.service
+sudo vi /etc/nginx/nginx.conf
+```
+
